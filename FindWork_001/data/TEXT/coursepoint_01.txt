@@ -1,0 +1,376 @@
+==============================================================
+ìπèáÇÃï€ë∂êÊ
+==============================================================
+SET_SCRIPT
+--------------------------------------------------------------
+É|ÉCÉìÉgÇÃèÓïÒ
+--------------------------------------------------------------
+SET_POINTINFO
+
+POS = 
+396
+0
+171
+
+ROT = 
+0
+0
+0
+
+IDX = 0
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+507.209
+0
+2709.56
+
+ROT = 
+0
+0.37
+0
+
+IDX = 1
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+1218.19
+0
+3549.05
+
+ROT = 
+0
+1.44
+0
+
+IDX = 2
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+3372.56
+0
+3898.84
+
+ROT = 
+0
+1.65
+0
+
+IDX = 3
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+5201.02
+0
+3882.83
+
+ROT = 
+0
+1.55
+0
+
+IDX = 4
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+7070.07
+0
+3162.73
+
+ROT = 
+0
+2.24
+0
+
+IDX = 5
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+8283.53
+0
+2352.33
+
+ROT = 
+0
+1.93
+0
+
+IDX = 6
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+10230.4
+0
+923.437
+
+ROT = 
+0
+2.35
+0
+
+IDX = 7
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+12467.8
+0
+-1553.47
+
+ROT = 
+0
+3
+0
+
+IDX = 8
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+12634.3
+0
+-2720.66
+
+ROT = 
+0
+3
+0
+
+IDX = 9
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+12232.9
+0
+-5911.24
+
+ROT = 
+0
+4.75001
+0
+
+IDX = 10
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+10028.7
+0
+-5679.91
+
+ROT = 
+0
+5.61003
+0
+
+IDX = 11
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+9034.1
+0
+-4304.27
+
+ROT = 
+0
+6.04004
+0
+
+IDX = 12
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+8570.12
+0
+-3219.62
+
+ROT = 
+0
+5.68004
+0
+
+IDX = 13
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+6876.49
+0
+-1653.76
+
+ROT = 
+0
+4.83002
+0
+
+IDX = 14
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+5387.25
+0
+-1749.72
+
+ROT = 
+0
+4.16
+0
+
+IDX = 15
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+4558.95
+0
+-2945.41
+
+ROT = 
+0
+3.51
+0
+
+IDX = 16
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+3662.46
+0
+-5040.45
+
+ROT = 
+0
+3.96
+0
+
+IDX = 17
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+2207.98
+0
+-5956.8
+
+ROT = 
+0
+4.56001
+0
+
+IDX = 18
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+702.178
+0
+-5889.83
+
+ROT = 
+0
+-0.61
+0
+
+IDX = 19
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+518.414
+0
+-4584.55
+
+ROT = 
+0
+-0.0499999
+0
+
+IDX = 20
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+435.2
+0
+-2921.63
+
+ROT = 
+0
+-0.0499999
+0
+
+IDX = 21
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+390.222
+0
+-1142.78
+
+ROT = 
+0
+0.0100001
+0
+
+IDX = 22
+
+END_POINTINFO
+
+END_SCRIPT

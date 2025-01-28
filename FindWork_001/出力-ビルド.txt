@@ -1,0 +1,6 @@
+﻿ビルドを開始しました...
+1>------ ビルド開始: プロジェクト: FindWork_001, 構成: Debug Win32 ------
+1>car_enemy.cpp
+1>C:\Users\student\Documents\Visual Studio 2019\FindWork_001\car_enemy.cpp : fatal error C1041: プログラム データベース 'C:\Users\student\Documents\Visual Studio 2019\FindWork_001\Debug\vc142.pdb' を開けません。複数の CL.EXE が同じ .PDB ファイルに書き込む場合、/FS を使用してください。
+1>プロジェクト "FindWork_001.vcxproj" のビルドが終了しました -- 失敗。
+========== ビルド: 0 正常終了、1 失敗、0 更新不要、0 スキップ ==========

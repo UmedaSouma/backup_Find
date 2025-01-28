@@ -1,0 +1,151 @@
+==============================================================
+ìπèáÇÃï€ë∂êÊ
+==============================================================
+SET_SCRIPT
+--------------------------------------------------------------
+É|ÉCÉìÉgÇÃèÓïÒ
+--------------------------------------------------------------
+SET_POINTINFO
+
+POS = 
+0
+0
+537
+
+IDX = 0
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+0
+0
+2430
+
+IDX = 1
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+465
+108
+3057
+
+IDX = 2
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+972
+132
+3738
+
+IDX = 3
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+2397
+132
+3738
+
+IDX = 4
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+2985
+84
+2727
+
+IDX = 5
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+3333
+6
+2067
+
+IDX = 6
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+3333
+6
+-354
+
+IDX = 7
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+3069
+6
+-1791
+
+IDX = 8
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+2361
+6
+-2772
+
+IDX = 9
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+1056
+6
+-2736
+
+IDX = 10
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+285
+6
+-1746
+
+IDX = 11
+
+END_POINTINFO
+
+SET_POINTINFO
+
+POS = 
+-21
+6
+-1140
+
+IDX = 12
+
+END_POINTINFO
+
+END_SCRIPT

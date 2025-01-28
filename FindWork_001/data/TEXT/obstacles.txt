@@ -1,0 +1,122 @@
+==============================================================
+è·äQï®ÇÃï€ë∂êÊ
+==============================================================
+SET_SCRIPT
+--------------------------------------------------------------
+è·äQï®ÇÃèÓïÒ
+--------------------------------------------------------------
+SET_OBSTACLE_INFO
+
+POS = 
+0
+0
+74.1
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+0
+239.4
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+0
+421.801
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+-7.45058e-09
+501.601
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+-7.45058e-09
+615.6
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+85.5
+-7.45058e-09
+1003.2
+TYPE = 0
+END_OBSTACLE_INFO
+
+END_SCRIPTSET_OBSTACLE_INFO
+
+POS = 
+0
+0
+0
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+END_SCRIPTSET_OBSTACLE_INFO
+
+POS = 
+0
+0
+0
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+0
+165.3
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+0
+347.7
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+0
+438.901
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+0
+-7.45058e-09
+632.7
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+END_SCRIPT

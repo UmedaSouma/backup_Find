@@ -1,0 +1,58 @@
+==============================================================
+è·äQï®ÇÃï€ë∂êÊ
+==============================================================
+SET_SCRIPT
+--------------------------------------------------------------
+è·äQï®ÇÃèÓïÒ
+--------------------------------------------------------------
+SET_OBSTACLE_INFO
+
+POS = 
+330.6
+0
+592.8
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+347.7
+0
+592.8
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+-399.001
+0
+1692.89
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+775.198
+202.706
+4075.5
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+SET_OBSTACLE_INFO
+
+POS = 
+1561.79
+272.436
+4275.01
+
+TYPE = 0
+END_OBSTACLE_INFO
+
+END_SCRIPT
