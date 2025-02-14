@@ -79,8 +79,10 @@ void CCarPlayer::Update()
 	// ˆê’U‚±‚±‚ÅŽE‚µ‚Ä‚¨‚­
 	if (GetPos().y < -250.0f||m_pGauge->GetCurrValue()<=0)
 	{
-		CFade* pFade = CManager::GetFade();
-		pFade->SetFade(CScene::MODE_GAME);
+		// ƒŠƒXƒ|[ƒ“ˆ—
+		ActionRespawn();
+		//CFade* pFade = CManager::GetFade();
+		//pFade->SetFade(CScene::MODE_GAME);
 	}
 }
 

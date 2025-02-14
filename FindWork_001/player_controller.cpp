@@ -60,43 +60,34 @@ void CPlayerController::Update(CCarPlayer* pCar)
 
 	if (pCar != nullptr)
 	{
-		if (keyboard->GetPress(DIK_LSHIFT) || joypad->GetPress(CInputJoypad::JOYKEY_RIGHT_SHOULDER))
 		{
-			if (keyboard->GetPress(DIK_D) || joypad->GetPress(CInputJoypad::JOYKEY_RIGHT))
-			{
-				pCar->ActionDriftR();
-				return;
-			}
-			else if (keyboard->GetPress(DIK_A) || joypad->GetPress(CInputJoypad::JOYKEY_LEFT))
-			{
-				pCar->ActionDriftL();
-				return;
-			}
-			pCar->SetForwardForce(pCar->GetAccumulationSpeed());
-			pCar->SetForwardAngle(pCar->GetRot().y);
-		}
-		else
-		{
-			//===========================================================================================================
-			// アクセル
-			//===========================================================================================================
-			if (keyboard->GetPress(DIK_W) || joypad->GetPressPedal(CInputJoypad::JOYKEY_RIGHT_TRIGGER))
-			{
-				pCar->ActionAccele();
-			}
+			
 			//===========================================================================================================
 			// ブレーキ
 			//===========================================================================================================
-			else if (keyboard->GetPress(DIK_S) || joypad->GetPressPedal(CInputJoypad::JOYKEY_LEFT_TRIGGER))
+			if (keyboard->GetPress(DIK_S) || joypad->GetPressPedal(CInputJoypad::JOYKEY_LEFT_TRIGGER))
 			{
 				pCar->ActionBrake();
 			}
-
-
+			//===========================================================================================================
+			// アクセル
+			//===========================================================================================================
+			else if (keyboard->GetPress(DIK_W) || joypad->GetPressPedal(CInputJoypad::JOYKEY_RIGHT_TRIGGER))
+			{
+				pCar->ActionAccele();
+			}
 
 			//===========================================================================================================
 			// ドリフト
 			//===========================================================================================================
+			if (keyboard->GetTrigger(DIK_LSHIFT) || joypad->GetTrigger(CInputJoypad::JOYKEY_LEFT_SHOULDER))
+			{
+				pCar->StartDrift();
+			}
+			if (keyboard->GetRelease(DIK_LSHIFT) || joypad->GetRelese(CInputJoypad::JOYKEY_LEFT_SHOULDER))
+			{
+				pCar->EndDrift();
+			}
 
 			//===========================================================================================================
 			// ドリフト
@@ -130,14 +121,14 @@ void CPlayerController::Update(CCarPlayer* pCar)
 #ifdef _DEBUG
 
 		// ギア変更
-		if (keyboard->GetTrigger(DIK_UPARROW) || joypad->GetTrigger(CInputJoypad::JOYKEY_UP))
+		if (keyboard->GetTrigger(DIK_UPARROW) || joypad->GetTrigger(CInputJoypad::JOYKEY_LEFT_THUMB))
 		{
 			if (pCar->GetGear() < pCar->GetGearNum() - 1)
 			{
 				pCar->SetGear(pCar->GetGear() + 1);
 			}
 		}
-		else if (keyboard->GetTrigger(DIK_DOWNARROW) || joypad->GetTrigger(CInputJoypad::JOYKEY_DOWN))
+		else if (keyboard->GetTrigger(DIK_DOWNARROW) || joypad->GetTrigger(CInputJoypad::JOYKEY_RIGHT_THUMB))
 		{
 			if (pCar->GetGear() > 0)
 			{
@@ -145,7 +136,7 @@ void CPlayerController::Update(CCarPlayer* pCar)
 			}
 		}
 
-		if (keyboard->GetTrigger(DIK_T) || joypad->GetTrigger(CInputJoypad::JOYKEY_UP))
+		if (keyboard->GetTrigger(DIK_T) || joypad->GetTrigger(CInputJoypad::JOYKEY_LEFT_THUMB))
 		{
 			pCar->ActionTurbo();
 		}

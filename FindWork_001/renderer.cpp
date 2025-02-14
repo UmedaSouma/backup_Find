@@ -290,16 +290,30 @@ void CRenderer::SetDebugRoutePoint(D3DXVECTOR3 pos, D3DXVECTOR3 move, D3DXVECTOR
 		btext[0] = "false";
 	}
 
+	unsigned int size = 0;
+	std::vector<CCarEnemy*>pEnemy;
+	pEnemy.clear();
+	pEnemy = CSearch::SearchMultiObject(pEnemy, CObject::TYPE::CAR_ENEMY);
+
+	if(pEnemy.empty())
+	{ }
+	else
+	{
+		size = pEnemy.size();
+	}
+
 	sprintf(m_aStr,
 		"\npos = %f,%f,%f"
 		"\nmove = %f,%f,%f"
 		"\nnextroute = %f,%f,%f"
 		"\nnextrouteID = %d"
 		"\nclear = %s"
+		"\nenemynum = %d"
 		, pos.x, pos.y, pos.z
 		, move.x, move.y, move.z
 		, nextroute.x, nextroute.y, nextroute.z
 		, ID
 		, btext[0]
+		, size
 	);
 }

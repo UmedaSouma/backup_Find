@@ -29,7 +29,12 @@ CObject2D::CObject2D(int nPriority, int nOrigin) :CObject(nPriority)
 , m_nAnimeInterval(0)
 , m_bHP(false)
 , m_fHPratio(1.0f)
+, m_bAnime(false)
 {
+	m_TexSpritInfo = { { 0.0f,0.0f }, { 1.0f,0.0f },
+					   { 0.0f,1.0f }, { 1.0f,1.0f }
+					};
+
 	m_nPriority = nPriority;
 	m_nOrigin = nOrigin;
 }
@@ -211,10 +216,10 @@ HRESULT CObject2D::Init()
 	
 	// テクスチャ座標の設定
 	{
-		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
-		pVtx[1].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x, 0.0f);
-		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f / m_nTexSplit.y);
-		pVtx[3].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x, 1.0f / m_nTexSplit.y);
+		pVtx[0].tex = m_TexSpritInfo.L_Up;
+		pVtx[1].tex = m_TexSpritInfo.R_Up;
+		pVtx[2].tex = m_TexSpritInfo.L_Down;
+		pVtx[3].tex = m_TexSpritInfo.R_Down;
 	}
 	
 	// 頂点バッファのアンロック
@@ -423,40 +428,50 @@ void CObject2D::Update()
 	pVtx[2].col = m_color;
 	pVtx[3].col = m_color;
 
-	// テクスチャ座標の設定
-	pVtx[0].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * m_nAnimeCounter.x, 1.0f / m_nTexSplit.y * m_nAnimeCounter.y);
-	pVtx[1].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * (m_nAnimeCounter.x + 1), 1.0f / m_nTexSplit.y * m_nAnimeCounter.y);
-	pVtx[2].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * m_nAnimeCounter.x, 1.0f / m_nTexSplit.y * (m_nAnimeCounter.y + 1));
-	pVtx[3].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * (m_nAnimeCounter.x + 1), 1.0f / m_nTexSplit.y * (m_nAnimeCounter.y + 1));
+	pVtx[0].tex = m_TexSpritInfo.L_Up;
+	pVtx[1].tex = m_TexSpritInfo.R_Up;
+	pVtx[2].tex = m_TexSpritInfo.L_Down;
+	pVtx[3].tex = m_TexSpritInfo.R_Down;
+	
+	if (m_bAnime)
+	{
+		// テクスチャ座標の設定
+		pVtx[0].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * m_nAnimeCounter.x, 1.0f / m_nTexSplit.y * m_nAnimeCounter.y);
+		pVtx[1].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * (m_nAnimeCounter.x + 1), 1.0f / m_nTexSplit.y * m_nAnimeCounter.y);
+		pVtx[2].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * m_nAnimeCounter.x, 1.0f / m_nTexSplit.y * (m_nAnimeCounter.y + 1));
+		pVtx[3].tex = D3DXVECTOR2(1.0f / m_nTexSplit.x * (m_nAnimeCounter.x + 1), 1.0f / m_nTexSplit.y * (m_nAnimeCounter.y + 1));
 
-		//// カウントがインターバルフレームまでカウントしたら
-		//if (m_nCnt == m_nAnimeInterval)
-		//{
-		//	// 横の分割数に到達するまで
-		//	if (m_nAnimeCounter.x < m_nTexSplit.x)
-		//	{
-		//		m_nAnimeCounter.x++;	// 横アニメーション進める
-		//	}
 
-		//	// 横のアニメーションカウンターが横の分割数超えたら
-		//	if (m_nAnimeCounter.x >= m_nTexSplit.x)
-		//	{
-		//		m_nAnimeCounter.y++;	// 縦アニメーションを進める
-		//		m_nAnimeCounter.x = 0;	// 横のアニメーションをリセットする
-		//	}
+		// カウントがインターバルフレームまでカウントしたら
+		if (m_nCnt == m_nAnimeInterval)
+		{
+			// 横の分割数に到達するまで
+			if (m_nAnimeCounter.x < m_nTexSplit.x)
+			{
+				m_nAnimeCounter.x++;	// 横アニメーション進める
+			}
 
-		//	// 縦のアニメーションカウンターが縦の分割数超えたら
-		//	if (m_nAnimeCounter.y >= m_nTexSplit.y)
-		//	{
-		//		m_nAnimeCounter.y = 0;	// 縦のアニメーションをリセットする
-		//	}		
+			// 横のアニメーションカウンターが横の分割数超えたら
+			if (m_nAnimeCounter.x >= m_nTexSplit.x)
+			{
+				m_nAnimeCounter.y++;	// 縦アニメーションを進める
+				m_nAnimeCounter.x = 0;	// 横のアニメーションをリセットする
+			}
 
-		//	// アニメーションカウンターリセット
-		//	m_nCnt = 0;
-		//}
+			// 縦のアニメーションカウンターが縦の分割数超えたら
+			if (m_nAnimeCounter.y >= m_nTexSplit.y)
+			{
+				m_nAnimeCounter.y = 0;	// 縦のアニメーションをリセットする
+			}
+
+			// アニメーションカウンターリセット
+			m_nCnt = 0;
+		}
 
 		// アニメーションカウンターを進める
 		m_nCnt++;
+	}
+	
 
 		// 頂点バッファのアンロック
 		m_pVtxBuff->Unlock();

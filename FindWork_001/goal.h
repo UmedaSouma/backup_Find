@@ -45,15 +45,15 @@ public:
 	void Uninit()override;	// 終了
 	void Update()override;	// 更新
 	void Draw()override;	// 描画
-	RUNTYPE CollisionGoalPlayer(CCarPlayer*pPlayer);	// 
 	void GoalPointOrder(GOAL_POINT point);	// ポイントに着いた順番の結果を出す関数
 
 	int GetDierTrvel() { return m_DireTravel; }
 
 	static CGoal* Create();   // 生成処理
 private:
-	const int GOAL_LAPS = 2;
+	void CheckPointReset();	// チェックポイントのリセット
 
+	const int GOAL_LAPS = 2;	// 周回数
 	RUNTYPE m_runtype;	// ゴール衝突時の進行方向
 	int m_nOrder[ORDER_MAX];	// ポイントを踏んだ順番
 	int m_DireTravel;	// 進行方向

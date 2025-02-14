@@ -29,6 +29,7 @@
 #include "tree.h"
 #include "cloud.h"
 #include "calculation.h"
+#include "number.h"
 
 #include <fstream>
 
@@ -66,21 +67,18 @@ HRESULT CGame::Init()
 		m_timer = new CTimer;
 		m_timer->Init();
 	}
+	//CNumber::Create(CNumber::FONT_DOT_WBW);
 	
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 50; i++)
 	{
 		uint64_t type = CCalculation::RandomInt((uint64_t)0, (uint64_t)CParamStorage::CAR_MAX-1);
 
-		CCarEnemy::Create((CParamStorage::TYPE)type/*CParamStorage::CAR_SPORTS*/, { 0.0f,0.0f,100.0f });
+		CCarEnemy::Create((CParamStorage::TYPE)type/*CParamStorage::CAR_BOMB*/, { 0.0f,0.0f,100.0f });
 	}
 
 	CTree::Create();
 	CCloud::Create();
 	m_pCountDown = CCountdown::Create();
-
-	//CCarEnemy::Create(CParamStorage::CAR_NORMAL, { 0.0f,0.0f,100.0f });
-	//CCarEnemy::Create(CParamStorage::CAR_NORMAL, { 0.0f,0.0f,200.0f });
-	//CCarEnemy::Create(CParamStorage::CAR_NORMAL, { 70.0f,0.0f,200.0f });
 
 	CCourse::Create(CCourse::COURSE_01);
 

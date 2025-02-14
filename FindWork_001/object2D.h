@@ -13,6 +13,14 @@
 class CObject2D :public CObject
 {
 public:
+	// テクスチャ分割のための構造体
+	typedef struct
+	{
+		D3DXVECTOR2 L_Up;
+		D3DXVECTOR2 R_Up;
+		D3DXVECTOR2 L_Down;
+		D3DXVECTOR2 R_Down;
+	}TexSpritInfo;
 
 	typedef enum
 	{
@@ -28,7 +36,7 @@ public:
 		POLYGON_MAX
 	}POLYGON_ORIGIN;
 
-	CObject2D(int nPriority = PRIORITY_DEFAULT, int nOrigin = CENTER);
+	CObject2D(int nPriority = PRIORITY_DEFAULT+1 , int nOrigin = CENTER);
 	~CObject2D()override;
 	HRESULT Init()override;
 	void Uninit()override;
@@ -64,6 +72,8 @@ private:
 	bool m_bHP;	// HPバーか否か
 	float m_fHPratio;	//HPバーの割合
 	int m_nOrigin;
+	TexSpritInfo m_TexSpritInfo;	// テクスチャの分割
+	bool m_bAnime;	// アニメーションするか否か
 
 public:
 	//--------------------------------------------------
@@ -89,6 +99,11 @@ public:
 	bool GetbHP() { return m_bHP; }
 	// HPratio
 	void SetHPratio(float ratio) { m_fHPratio = ratio; }
+	// TexSpritInfo
+	void SetTexSpritInfo(TexSpritInfo info) { m_TexSpritInfo = info; }
+	// bAnime
+	void SetIsAnime(bool anime) { m_bAnime = anime; }
+	bool GetIsAnime() { return m_bAnime; }
 };
 
 #endif // !_OBJECT_2D_H_

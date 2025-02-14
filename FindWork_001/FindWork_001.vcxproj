@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -111,7 +111,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Pch.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>Pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -176,6 +176,7 @@
     <ClCompile Include="countdown.cpp" />
     <ClCompile Include="course.cpp" />
     <ClCompile Include="course_point.cpp" />
+    <ClCompile Include="display_number.cpp" />
     <ClCompile Include="donut.cpp" />
     <ClCompile Include="editor_coursepoint.cpp" />
     <ClCompile Include="editor_obstacles.cpp" />
@@ -196,12 +197,15 @@
     <ClCompile Include="meterneedle.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="modeldata.cpp" />
+    <ClCompile Include="number.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="object2D.cpp" />
     <ClCompile Include="object3D.cpp" />
     <ClCompile Include="objectX.cpp" />
     <ClCompile Include="obstacles.cpp" />
     <ClCompile Include="param_storage.cpp" />
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="particle_manager.cpp" />
     <ClCompile Include="Pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pch.h</PrecompiledHeaderFile>
@@ -231,6 +235,7 @@
     <ClCompile Include="title.cpp" />
     <ClCompile Include="title_poly.cpp" />
     <ClCompile Include="tree.cpp" />
+    <ClCompile Include="tutorial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actor.h" />
@@ -251,6 +256,7 @@
     <ClInclude Include="countdown.h" />
     <ClInclude Include="course.h" />
     <ClInclude Include="course_point.h" />
+    <ClInclude Include="display_number.h" />
     <ClInclude Include="donut.h" />
     <ClInclude Include="editor_coursepoint.h" />
     <ClInclude Include="editor_obstacles.h" />
@@ -271,12 +277,15 @@
     <ClInclude Include="meterneedle.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="modeldata.h" />
+    <ClInclude Include="number.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="object2D.h" />
     <ClInclude Include="object3D.h" />
     <ClInclude Include="objectX.h" />
     <ClInclude Include="obstacles.h" />
     <ClInclude Include="param_storage.h" />
+    <ClInclude Include="particle.h" />
+    <ClInclude Include="particle_manager.h" />
     <ClInclude Include="Pch.h" />
     <ClInclude Include="player3D.h" />
     <ClInclude Include="player_controller.h" />
@@ -298,6 +307,7 @@
     <ClInclude Include="title.h" />
     <ClInclude Include="title_poly.h" />
     <ClInclude Include="tree.h" />
+    <ClInclude Include="tutorial.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

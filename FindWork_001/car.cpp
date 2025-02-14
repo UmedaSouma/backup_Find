@@ -15,8 +15,10 @@
 #include "obstacles.h"
 #include "countdown.h"
 #include "game.h"
+#include "check_point.h"
 
 #include <tuple>
+#include <cmath>
 
 //========================================================================================================================
 // コンストラクタ
@@ -51,6 +53,8 @@ CCar::CCar()
 
 	m_IsDrift = false;
 	m_ChargeTime = 0;
+	m_Factor = 0.0f;
+	m_DriftDire = DRIFT_NONE;
 
 	m_nDownCount = 0;
 }
@@ -131,19 +135,21 @@ void CCar::Update()
 	// 位置を設定
 	pos.y += move.y;
 
-	if (m_Action != CCar::DRIFTR || m_Action != CCar::DRIFTL)
+	if (!m_IsDrift)
 	{
 		pos.x += sinf(GetRot().y) * move.x;
 		pos.z += cosf(GetRot().y) * move.z;
+
+		SetPos(pos);
 	}
-	
-	SetPos(pos);
+
+	UpdateDrift();
 
 	if (m_CurrParam.Speed > m_Param.fMaxSpeed[m_CurrParam.nGear] + 10.0f)
 	{
 		//バックライト点灯
-		CBackLight::Create(pos, rot, 100, false);	// 左ライト
-		CBackLight::Create(pos, rot, 100, true);	// 右ライト
+		CBackLight::Create(pos, rot, 30, false);	// 左ライト
+		CBackLight::Create(pos, rot, 30, true);	// 右ライト
 	}
 
 	// 移動値を保存
@@ -169,9 +175,13 @@ void CCar::Update()
 	{
 		Uninit();
 	}
-	else if(GetPos().y<=-15000.0f)
+	else if(GetPos().y<=-1500.0f)
 	{
-		Uninit();
+		// プレイヤーだったら通らない
+		if (GetType() == CObject::TYPE::CAR_PLAYER)
+		{	return;	}
+
+		Uninit();	// 車を削除する
 	}
 }
 
@@ -199,7 +209,7 @@ void CCar::InitType(CParamStorage::TYPE type)
 	switch (type)
 	{
 	case CParamStorage::CAR_NORMAL:
-		SetModel("data\\model\\car_normal_005.x");	// モデルを設定
+		SetModel("data\\model\\tentative_model_normal.x");	// モデルを設定
 		break;
 
 	case CParamStorage::CAR_TRACK:
@@ -207,7 +217,7 @@ void CCar::InitType(CParamStorage::TYPE type)
 		break;
 
 	case CParamStorage::CAR_SPORTS:
-		SetModel("data\\model\\car_sample.x");	// モデルを設定
+		SetModel("data\\model\\tentative_model_sports.x");	// モデルを設定
 		break;
 
 	case CParamStorage::CAR_BOMB:
@@ -264,7 +274,7 @@ void CCar::TarboCamera()
 	
 	if (m_nTurboInterval == 90)
 	{// インターバルのカウントが始まったら
-		pCamera->SetFollow(0.001f);
+		pCamera->SetFollow(0.0001f);
 	}
 	else if (pCamera->GetFollow() >= 1.0f)
 	{// カメラが車に追いついたら
@@ -327,7 +337,7 @@ void CCar::DrawDistance()
 	// カメラと車の距離を計算する
 	float dis = CCalculation::TwoPointDistance(pCamera->GetPos(), GetPos());
 
-	if (dis > 5000.0f)
+	if (dis > /*350*/5000.0f)
 	{// 距離が遠かったら
 		m_bDisDraw = false;	// 映さない
 	}
@@ -533,6 +543,15 @@ float CCar::ActionBend()
 
 	bool bFront = false;
 
+	if (m_Factor >= 0.5f)
+	{
+		m_Factor = 0.5f;
+	}
+	if (m_Factor <= -0.5f)
+	{
+		m_Factor = -0.5f;
+	}
+
 	if (m_fMoveAngle > 0.0f)
 	{// 進んでる方向が前の時
 		bFront = true;
@@ -549,20 +568,27 @@ float CCar::ActionBend()
 		break;
 	}
 
-	// 回転しすぎないように制御
-	if (fAddRot > m_Param.fBending)
+	// ドリフト時の
+	float AddBend = 0.0f;
+	if (m_IsDrift)
 	{
-		fAddRot = m_Param.fBending;
-	}
-	else if (fAddRot < -m_Param.fBending)
-	{
-		fAddRot = -m_Param.fBending;
+		AddBend = 0.005f;
 	}
 
-	if (fAddRot > m_Param.fBending)
-	{// 加算角度がパラメーターの数値を超えてしまった時
-		return m_Param.fBending;	// 最大の値を返す
+	// 回転しすぎないように制御
+	if (fAddRot > m_Param.fBending /*+ m_Factor*/)
+	{
+		fAddRot = m_Param.fBending + AddBend;
 	}
+	else if (fAddRot < -m_Param.fBending /*+ m_Factor*/)
+	{
+		fAddRot = -m_Param.fBending + AddBend;
+	}
+
+	//if (fAddRot > m_Param.fBending)
+	//{// 加算角度がパラメーターの数値を超えてしまった時
+	//	return m_Param.fBending;	// 最大の値を返す
+	//}
 
 	return fAddRot;
 }
@@ -572,6 +598,11 @@ float CCar::ActionBend()
 //===========================================================================================================
 void CCar::ActionBend_R()
 {	
+	if (m_DriftDire == DRIFT_LEFT && m_Factor <= 0.01f)
+	{
+		return;
+	}
+
 	D3DXVECTOR3 rot = GetRot();
 	float fAddRot = 0.0f;	// 加える回転量
 
@@ -582,6 +613,16 @@ void CCar::ActionBend_R()
 	rot.y += fAddRot;
 
 	SetRot(rot);
+
+	// この下の処理はドリフトの時だけ行う
+	if (!m_IsDrift) 
+	{ return; }
+
+	m_Factor += 0.05f;	// 滑りやすさ増加
+
+	if (m_DriftDire != DRIFT_NONE) 
+	{ return; }
+	m_DriftDire = DRIFT_RIGHT;
 }
 
 //===========================================================================================================
@@ -589,6 +630,12 @@ void CCar::ActionBend_R()
 //===========================================================================================================
 void CCar::ActionBend_L()
 {
+	if (m_DriftDire == DRIFT_RIGHT && m_Factor >= -0.01f)
+	{
+		return;
+	}
+	
+
 	D3DXVECTOR3 rot = GetRot();
 	float fAddRot = 0.0f;	// 加える回転量
 
@@ -601,6 +648,16 @@ void CCar::ActionBend_L()
 	rot.y += fAddRot;
 
 	SetRot(rot);
+
+	// この下の処理はドリフトの時だけ行う
+	if (!m_IsDrift) 
+	{ return; }
+
+	m_Factor += -0.05f;	// 滑りやすさ増加
+
+	if (m_DriftDire != DRIFT_NONE) 
+	{ return; }
+	m_DriftDire = DRIFT_LEFT;
 }
 
 //===========================================================================================================
@@ -658,12 +715,14 @@ void CCar::ActionDown()
 	//D3DXVECTOR3 move = GetMove();
 	D3DXVECTOR3 move = { 0.0001f,0.0f,0.0001f };
 	move *= 0.001f;
-	SetMove(move);
+	SetMove(move);	
 
 	CCamera* pCamera = CManager::GetCamera();	// camera を持ってくる
 	pCamera->SetCameraTarget(CCamera::CAMERA_TARGET_TYPE::NONE);
 
 	m_Action = DOWN;
+	m_ChargeTime = 0;	// 加速しないようにあらかじめチャージ時間をリセット
+	EndDrift();			// ドリフト終了
 }
 
 //===========================================================================================================
@@ -691,9 +750,6 @@ void CCar::ActionDrift()
 //===========================================================================================================
 void CCar::ActionDriftR()
 {
-#include <cmath>
-
-	
 
 	{
 		//float addrot = 0.1f;
@@ -750,6 +806,29 @@ void CCar::ActionDriftL()
 }
 
 //===========================================================================================================
+// リスポーン処理
+//===========================================================================================================
+void CCar::ActionRespawn()
+{
+	// チェックポイントの動的確保
+	CCheckPoint* pCheckP = new CCheckPoint;
+	if (pCheckP == nullptr)
+	{	return;	}
+
+	// 近くのチェックポイントを探してワープする
+	pCheckP->SearchNearPoint();
+
+	// delete する
+	delete pCheckP;
+	pCheckP = nullptr;
+
+	SetMove({ 0.0f,0.0f,0.0f });	// 移動量をなくす
+	m_ChargeTime = 0;	// チャージ時間をリセットする
+
+	EndDrift();
+}
+
+//===========================================================================================================
 // アクション毎の更新処理
 //===========================================================================================================
 void CCar::ActionUpdate()
@@ -800,9 +879,62 @@ void CCar::AUdown()
 	}
 }
 
+//===========================================================================================================
+// ドリフト開始
+//===========================================================================================================
 void CCar::StartDrift()
 {
+	m_IsDrift = true;	// ドリフトしている！にする
+	m_ChargeTime = 0;	// ドリフトのチャージタイムリセット
+	m_Factor = 0.0f;	// ドリフトの滑り具合をリセット
+	m_DriftDire = DRIFT_NONE;
+}
+
+//===========================================================================================================
+// ドリフト終了
+//===========================================================================================================
+void CCar::EndDrift()
+{
+	// ドリフトを30フレーム以上すると
+	if (m_ChargeTime >= 60)
+	{
+		ActionAttack();	// 早く進める
+	}
+
+	m_IsDrift = false;	// ドリフトしていない！にする
+	m_ChargeTime = 0;	// ドリフトのチャージタイムリセット
+	m_Factor = 0.0f;	// ドリフトの滑り具合をリセット
+	m_DriftDire = DRIFT_NONE;
+}
+
+//===========================================================================================================
+// ドリフト更新
+//===========================================================================================================
+void CCar::UpdateDrift()
+{
+	// ドリフトをしていなかったらこの処理を通らない
+	if (!m_IsDrift) 
+	{ return; }
+
+	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 move = GetMove();
+
+	if (m_Factor != 0.0f)
+	{
+		m_ChargeTime++;	// ターボのチャージ時間を増やしていく	
+	}
 	
+	// 滑らせる角度を算出する
+	float DDirection = std::lerp(GetRot().y, GetRot().y - 0.8f, m_Factor);
+
+	// 位置を設定
+	pos.y += move.y;
+
+	// ドリフト時は速度を少し落とす
+	pos.x += sinf(DDirection) * move.x * 0.7f;
+	pos.z += cosf(DDirection) * move.z * 0.7f;
+
+	SetPos(pos);
 }
 
 //========================================================================================================================

@@ -5,12 +5,16 @@
 // 
 //===========================================================================================================================================================
 #include "course_point.h"
+#include "search.h"
+#include "car_player.h"
+#include "collision.h"
 
 //========================================================================================================================
 // コンストラクタ
 //========================================================================================================================
 CCoursePoint::CCoursePoint() :
-	m_nIdxPoint(-1)
+	m_nIdxPoint(-1),
+	m_bPassPoint(false)
 {
 }
 
@@ -26,10 +30,9 @@ CCoursePoint::~CCoursePoint()
 //========================================================================================================================
 HRESULT CCoursePoint::Init()
 {
-#ifdef _DEBUG
 	SetModel("data\\MODEL\\course_point_000.x");
+#ifdef _DEBUG
 #endif // !_DEBUG
-
 	SetType(CObject::POINT);
 	CModel::Init();
 
@@ -49,6 +52,8 @@ void CCoursePoint::Uninit()
 //========================================================================================================================
 void CCoursePoint::Update()
 {
+	PassPointUpdate();
+
 	CModel::Update();
 }
 
@@ -58,6 +63,25 @@ void CCoursePoint::Update()
 void CCoursePoint::Draw()
 {
 	CModel::Draw();
+}
+
+//===========================================================================================================
+// ポイントを通る
+//===========================================================================================================
+void CCoursePoint::PassPointUpdate()
+{
+	CCarPlayer* player = nullptr;
+	player = CSearch::SearchObject(player, CObject::CAR_PLAYER);
+
+	if (player == nullptr)
+	{
+		return;
+	}
+
+	if (CCollision::SphereTrigger(player->GetPos(), 20.0f, GetPos(), 100.0f))
+	{
+		m_bPassPoint = true;
+	}
 }
 
 //========================================================================================================================

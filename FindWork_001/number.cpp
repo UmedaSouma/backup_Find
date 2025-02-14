@@ -1,121 +1,91 @@
 //===========================================================================================================================================================
 // 
-// エフェクトの処理 [effect.cpp]
+// 数字の処理 [number.cpp]
 // Author : souma umeda
 // 
 //===========================================================================================================================================================
-#include "effect.h"
+#include "number.h"
 #include "manager.h"
-#include "billboard.h"
 
 //========================================================================================================================
 // コンストラクタ
 //========================================================================================================================
-CEffect::CEffect(int nPrio):CBillboard(nPrio),
-	m_nMaxLife(0),
-	m_nLife(0)
+CNumber::CNumber() :
+	m_TypeNum(FONT_DOT_WBW),
+	m_Number(0)
 {
 }
 
 //========================================================================================================================
 // デストラクタ
 //========================================================================================================================
-CEffect::~CEffect()
+CNumber::~CNumber()
 {
 }
 
 //========================================================================================================================
 // 初期設定
 //========================================================================================================================
-HRESULT CEffect::Init()
+HRESULT CNumber::Init()
 {
+	SetPos({ SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f,0.0f });
+	SetSize({ 40,40,50 });
+
 	int Idx = 0;
-	Idx = CManager::GetTexture()->Regist("data\\TEXTURE\\shadow000.jpg");
+	Idx = CManager::GetTexture()->Regist(m_NumberPass[m_TypeNum]);
 	BindTexture(CManager::GetTexture()->GetAddress(Idx));
 
-	// 寿命設定
-	m_nLife = m_nMaxLife;
+	//SetTexSplit({ 1000,1 });
+	//SetAnimeInterval(1);
 
-	CBillboard::Init();
+	// テクスチャ分割
+	SetTexSpritInfo({
+		{0.0f,0.0f},{0.1f,0.0f},
+		{0.0f,1.0f},{0.1f,1.0f}
+		});
+
+	CObject2D::Init();
 	return S_OK;
 }
 
 //========================================================================================================================
 // 終了処理
 //========================================================================================================================
-void CEffect::Uninit()
+void CNumber::Uninit()
 {
-	CBillboard::Uninit();
+	CObject2D::Uninit();
 }
 
 //========================================================================================================================
 // 更新処理
 //========================================================================================================================
-void CEffect::Update()
+void CNumber::Update()
 {
-	if (m_nLife == -1)
-	{
-	}
-	else if (m_nLife <= 0)
-	{
-		Uninit();
-	}
-	else
-	{
-		m_nLife--;
-	}
+	// テクスチャ分割
+	SetTexSpritInfo({
+		{0.1f*m_Number,0.0f},{0.1f * (m_Number+1),0.0f},
+		{0.1f*m_Number,1.0f},{0.1f * (m_Number+1),1.0f}
+		});
 
-	CBillboard::Update();
+	CObject2D::Update();
 }
 
 //========================================================================================================================
 // 描画処理
 //========================================================================================================================
-void CEffect::Draw()
+void CNumber::Draw()
 {
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-
-	// αブレンディングを加算合成に設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
-	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-	// Zの比較方法
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-
-	// Zバッファに書き込まない
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
-	CBillboard::Draw();
-
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
-	// Zの比較方法
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-
-	// Zバッファに書き込む
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-	// αブレンディングを加算合成に設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	CObject2D::Draw();
 }
 
 //========================================================================================================================
 // 生成処理
 //========================================================================================================================
-CEffect* CEffect::Create(D3DXVECTOR3 pos, int nLife)
+CNumber* CNumber::Create(FONT_TYPE type)
 {
-	CEffect* pEffect = new CEffect;
-	pEffect->SetPos(pos);
-	pEffect->m_nMaxLife = nLife;
+	CNumber* pNumber = new CNumber;
+	pNumber->m_TypeNum = type;
+	pNumber->Init();
 
-	pEffect->Init();
-
-	return pEffect;
+	return pNumber;
 }

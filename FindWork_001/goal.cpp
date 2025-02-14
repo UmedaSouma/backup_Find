@@ -8,6 +8,7 @@
 #include "search.h"
 #include "collision.h"
 #include "manager.h"
+#include "check_point.h"
 
 std::vector<int> g_aa;
 
@@ -70,7 +71,7 @@ void CGoal::Update()
 	D3DXVECTOR3 Fpos = GetPos();
 	D3DXVECTOR3 Lpos = GetPos();
 	D3DXVECTOR3 RePos = GetPos();
-	D3DXVECTOR3 size = { 500.0f,500.0f,50.0f };
+	D3DXVECTOR3 size = { 700.0f,500.0f,50.0f };
 	Fpos.z -= 300.0f;	// ゴールから見て一番手前のポイント
 	Lpos.z -= 100.0f;	// ゴールに近い手前
 	RePos.z += 100.0f;	// ポイントに着いた履歴をリセットする
@@ -96,6 +97,9 @@ void CGoal::Update()
 	{// 正しく走行した時
 		m_DireTravel = RUN_NONE;	// リセットする
 		m_nLaps += 1;	// 周回数を増やす
+
+		// チェックポイントをリセット
+		CheckPointReset();
 	}
 
 	// 回数分ゴールまで到達したら
@@ -104,58 +108,6 @@ void CGoal::Update()
 		CFade* pFade = CManager::GetFade();
 		pFade->SetFade(CScene::MODE_RESULT);
 	}
-	
-	
-	//if (CCollision::BoxTrigger(Fpos, size, pPlayer->GetPos(), pPlayer->GetSize()))
-	//{
-	//	g_aa.push_back(1);
-
-	//	/*RUNTYPE runtype = RUN_NONE;
-	//	runtype = CollisionGoalPlayer(pPlayer);
-
-	//	switch (runtype)
-	//	{
-	//	case RUN_BACK:
-
-	//		break;
-
-	//	case RUN_FRONT:
-	//	case RUN_NONE:
-
-	//		CFade* pFade = CManager::GetFade();
-	//		pFade->SetFade(CScene::MODE_RESULT);
-
-	//		break;
-	//	}	*/
-	//}
-
-	//if (CCollision::BoxTrigger(Lpos, size, pPlayer->GetPos(), pPlayer->GetSize()))
-	//{
-	//	g_aa.push_back(2);
-	//}
-
-	//int bb = 0;
-	//int b = 0;
-	//int i = 0;
-	//for (auto itr = g_aa.rbegin(); itr != g_aa.rend(); ++itr)
-	//{
-	//	if (i == 0)
-	//	{
-	//		bb = *itr;
-	//	}
-	//	if (i == 1)
-	//	{
-	//		b = *itr;
-	//	}
-	//	i++;
-	//}
-
-	//if (bb == 2 && b == 1)
-	//{
-	//	CFade* pFade = CManager::GetFade();
-	//	pFade->SetFade(CScene::MODE_RESULT);
-	//}
-
 
 	CModel::Update();
 }
@@ -166,26 +118,6 @@ void CGoal::Update()
 void CGoal::Draw()
 {
 	CModel::Draw();
-}
-
-//========================================================================================================================
-// ゴールとプレイヤーの当たり判定
-//========================================================================================================================
-CGoal::RUNTYPE CGoal::CollisionGoalPlayer(CCarPlayer* pPlayer)
-{
-	D3DXVECTOR3 oldpos = pPlayer->GetOldPos();
-	RUNTYPE runtype = RUN_NONE;
-
-	if (oldpos.z > pPlayer->GetPos().z)
-	{
-		runtype = RUN_BACK;
-	}
-	else if (oldpos.z < pPlayer->GetPos().z)
-	{
-		runtype = RUN_FRONT;
-	}
-
-	return runtype;
 }
 
 //===========================================================================================================
@@ -226,4 +158,24 @@ CGoal* CGoal::Create()
 	pGoal->Init();
 
 	return pGoal;
+}
+
+//===========================================================================================================
+// チェックポイントのリセット
+//===========================================================================================================
+void CGoal::CheckPointReset()
+{
+	// チェックポイントのポインタを動的確保
+	CCheckPoint* pPoint = new CCheckPoint;
+
+	// チェックポイントが null だったら処理を行わない
+	if (pPoint == nullptr)
+	{	return;	}
+
+	// チェックポイントをリセットする
+	pPoint->Reset();
+
+	// delete 忘れず
+	delete pPoint;
+	pPoint = nullptr;
 }

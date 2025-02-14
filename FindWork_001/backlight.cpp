@@ -25,6 +25,8 @@ CBackLight::~CBackLight()
 //========================================================================================================================
 HRESULT CBackLight::Init()
 {
+	SetType(CObject::BACK_LIGHT);
+	SetMove({ 0.0f,5.0f,0.0f });
 	SetSize({ 5.0f,5.0f,0.0f });
 
 	CEffect::Init();
@@ -44,6 +46,9 @@ void CBackLight::Uninit()
 //========================================================================================================================
 void CBackLight::Update()
 {
+	D3DXVECTOR3 pos = GetPos();
+	D3DXVECTOR3 move = GetMove();
+
 	int life = GetLife();
 	int MaxLife = GetMaxLife();
 	float LifeRatio = (float)life / (float)MaxLife;	// ç≈ëÂëÃóÕÇ∆ÇÃäÑçá
@@ -55,6 +60,12 @@ void CBackLight::Update()
 		D3DXVECTOR3 scale = { 1.0f,1.0f,1.0f };
 		SetScale(scale * LifeRatio);
 	}
+
+	move.y += -0.5f;
+	SetMove(move);
+
+	pos += move;
+	SetPos(pos);
 
 	CEffect::Update();
 }

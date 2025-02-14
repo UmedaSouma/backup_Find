@@ -16,6 +16,15 @@ class CCar:public CActor
 {
 private:
 
+	// ドリフトの向き
+	typedef enum
+	{
+		DRIFT_NONE = 0,
+		DRIFT_RIGHT,
+		DRIFT_LEFT,
+		DRIFT_MAX
+	}DriftDire;
+
 	// 現在のパラメーター
 	struct CurrParam
 	{
@@ -84,8 +93,9 @@ public:
 	void ActionAttack();	// 攻撃(突進
 	void ActionDown();		// 衰退
 	void ActionDrift();		// ドリフト処理
-	void ActionDriftR();		// ドリフト処理
-	void ActionDriftL();		// ドリフト処理
+	void ActionDriftR();	// ドリフト処理
+	void ActionDriftL();	// ドリフト処理
+	void ActionRespawn();	// リスポーン処理
 
 	void ActionUpdate();	// アクション毎の更新処理(以降 ActionUpdate = AU と略す
 	void AUdown();			// ダウン時の更新処理
@@ -101,11 +111,15 @@ public:
 		float Current;	// 現在の角度
 		float Target;	// 目的の角度
 	}Drift_Direction;
-private:
 	void StartDrift();	// ドリフトを開始
+	void EndDrift();	// ドリフト終了
+	void UpdateDrift();	// ドリフトの更新処理
+private:
+	float m_Factor;	// ドリフトの滑り具合
 	bool m_IsDrift;	// ドリフトをしているかどうか
-	float m_ChargeTime;	// ドリフトチャージ時間
+	int m_ChargeTime;	// ドリフトチャージ時間
 	Drift_Direction m_DDire;	// ドリフトの角度
+	DriftDire m_DriftDire;		// ドリフトで進んでいる向き
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 private:
 	CurrParam m_CurrParam;			// 現在のパラメーター

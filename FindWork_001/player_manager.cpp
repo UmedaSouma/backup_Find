@@ -34,7 +34,7 @@ void CPlayerManager::Init()
 	if (m_pCar == nullptr)
 	{
 		// Ô‚ğì¬
-		m_pCar = CCarPlayer::Create(CParamStorage::CAR_SPORTS);
+		m_pCar = CCarPlayer::Create(CParamStorage::CAR_NORMAL);
 	}
 
 	if (m_pController = nullptr)

@@ -48,7 +48,7 @@ HRESULT CCamera::Init()
 	m_TargetType = PLAYER;
 
 	m_fDis = 170.0f;
-	m_follow = 1.0f;
+	m_follow = 0.7f;
 
 	return S_OK;
 }

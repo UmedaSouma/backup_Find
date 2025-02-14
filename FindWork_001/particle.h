@@ -1,121 +1,107 @@
+#pragma once
 //===========================================================================================================================================================
 // 
-// エフェクトの処理 [effect.cpp]
+// particle.cppのヘッダー [particle.h]
 // Author : souma umeda
 // 
 //===========================================================================================================================================================
+#ifndef _PARTICLE_H_
+#define _PARTICLE_H_
+#include "main.h"
 #include "effect.h"
-#include "manager.h"
-#include "billboard.h"
+
+class CParticle :public CEffect
+{
+public:
+	// パーティクルの種類
+	typedef enum
+	{
+		PARTICLE_SPARK=0,
+		PARTICLE_MAX
+	}PARTICLE_TYPE;
+
+	CParticle();
+	~CParticle()override;
+	HRESULT Init()override;	// 初期設定
+	void Uninit()override;	// 終了
+	void Update()override;	// 更新
+	void Draw()override;	// 描画
+
+	static CParticle* Create();   // 生成処理
+private:
+	D3DXVECTOR3 m_MaxAngle;	// 射出する角度の最大値
+	D3DXVECTOR3 m_MinAngle;	// 射出する角度の最小値
+	float m_Speed;			// 速度
+public:
+	//===========================================================================
+	// set,get
+	//===========================================================================
+
+	// -- 角度の最大 --
+	void SetMaxAngle(D3DXVECTOR3 angle) { m_MaxAngle = angle; }
+	D3DXVECTOR3 GetMaxAngle() { return m_MaxAngle; }
+
+	// -- 角度の最小 --
+	void SetMinAngle(D3DXVECTOR3 angle) { m_MinAngle = angle; }
+	D3DXVECTOR3 GetMinAngle() { return m_MinAngle; }
+};
 
 //========================================================================================================================
 // コンストラクタ
 //========================================================================================================================
-CEffect::CEffect(int nPrio):CBillboard(nPrio),
-	m_nMaxLife(0),
-	m_nLife(0)
+CParticle::CParticle()
 {
 }
 
 //========================================================================================================================
 // デストラクタ
 //========================================================================================================================
-CEffect::~CEffect()
+CParticle::~CParticle()
 {
 }
 
 //========================================================================================================================
 // 初期設定
 //========================================================================================================================
-HRESULT CEffect::Init()
+HRESULT CParticle::Init()
 {
-	int Idx = 0;
-	Idx = CManager::GetTexture()->Regist("data\\TEXTURE\\shadow000.jpg");
-	BindTexture(CManager::GetTexture()->GetAddress(Idx));
-
-	// 寿命設定
-	m_nLife = m_nMaxLife;
-
-	CBillboard::Init();
+	CEffect::Init();
 	return S_OK;
 }
 
 //========================================================================================================================
 // 終了処理
 //========================================================================================================================
-void CEffect::Uninit()
+void CParticle::Uninit()
 {
-	CBillboard::Uninit();
+	CEffect::Uninit();
 }
 
 //========================================================================================================================
 // 更新処理
 //========================================================================================================================
-void CEffect::Update()
+void CParticle::Update()
 {
-	if (m_nLife == -1)
-	{
-	}
-	else if (m_nLife <= 0)
-	{
-		Uninit();
-	}
-	else
-	{
-		m_nLife--;
-	}
-
-	CBillboard::Update();
+	CEffect::Update();
 }
 
 //========================================================================================================================
 // 描画処理
 //========================================================================================================================
-void CEffect::Draw()
+void CParticle::Draw()
 {
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-
-	// αブレンディングを加算合成に設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	pDevice->SetRenderState(D3DRS_ALPHAREF, 0);
-	pDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-
-	// Zの比較方法
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_ALWAYS);
-
-	// Zバッファに書き込まない
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
-
-	CBillboard::Draw();
-
-	pDevice->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
-
-	// Zの比較方法
-	pDevice->SetRenderState(D3DRS_ZFUNC, D3DCMP_LESSEQUAL);
-
-	// Zバッファに書き込む
-	pDevice->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
-
-	// αブレンディングを加算合成に設定
-	pDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-	pDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-	pDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	CEffect::Draw();
 }
 
 //========================================================================================================================
 // 生成処理
 //========================================================================================================================
-CEffect* CEffect::Create(D3DXVECTOR3 pos, int nLife)
+CParticle* CParticle::Create()
 {
-	CEffect* pEffect = new CEffect;
-	pEffect->SetPos(pos);
-	pEffect->m_nMaxLife = nLife;
+	CParticle* pParticle = new CParticle;
+	pParticle->Init();
 
-	pEffect->Init();
-
-	return pEffect;
+	return pParticle;
 }
+
+#endif // !PARTICLE_H_

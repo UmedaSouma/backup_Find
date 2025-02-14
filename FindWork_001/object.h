@@ -29,6 +29,8 @@ public:
 		POINT,		// 道順のポイント
 		GOAL,		// ゴールオブジェクト
 		OBSTACLE,	// 障害物
+		BACK_LIGHT,	// バックライト
+		NUMBER,
 		MAX
 	}TYPE;
 

@@ -8,18 +8,16 @@
 #ifndef _TIMER_H_
 #define _TIMER_H_
 #include "main.h"
+#include "display_number.h"
 
 class CTimer
 {
 public:
-	CTimer();
-	~CTimer();
-	void Init();
-	void Uninit();
-	void Update();
-	void Draw();
-
-
+	CTimer();		// コンストラクタ
+	~CTimer();		// デストラクタ
+	void Init();	// 初期化処理
+	void Uninit();	// 終了処理
+	void Update();	// 更新処理
 
 	//---------------------------------------
 	// タイマーシステム
@@ -29,13 +27,29 @@ public:
 	void Reset();	// リセット
 	void Stop();	// リセット + 停止
 private:
-	void TimeCalculation();	// 時間計算
+
+	// displayの配列用列挙
+	typedef enum
+	{
+		TIME_SEC = 0,	// 秒
+		TIME_MIN,		// 分
+		TIME_MAX
+	}TIME_;
+
+	// 時間情報の構造体
+	typedef struct
+	{
+		int sec;	// 秒数
+		int min;	// 分数
+		int hor;	// 時数
+	}TimeInfo;
 
 	int m_Timer;	// フレームカウント
 	bool m_bPlay;	// 再生中か否か
-	int m_nSeconds;	// 秒数カウント
-	int m_nMinutes;	// 分数カウント
-	int m_nHours;	// 時数カウント
+	TimeInfo m_TimeInfo;	// 時間情報
+	CDisplayNumber* m_pDisNum[TIME_MAX];	// 表示する数字のポインタ
+	
+	void TimeCalculation();	// 時間計算
 };
 
 #endif // !TIMER_H_
