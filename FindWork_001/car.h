@@ -177,7 +177,7 @@ public:
 	void SetAccumulationSpeed(float speed) { m_fAccumulationSpeed = speed; }
 	float GetAccumulationSpeed() { return m_CurrParam.Speed; }
 
-	//-- 蓄積スピード --
+	//-- 現在のギア --
 	void SetGear(int gear) { m_CurrParam.nGear = gear; }
 	int GetGear() { return m_CurrParam.nGear; }
 

@@ -13,6 +13,7 @@ CLight* CManager::m_pLight = nullptr;
 CCamera* CManager::m_pCamera = nullptr;
 CParamStorage* CManager::m_pParamStrage = nullptr;
 CFixedValue* CManager::m_pFixedValue = nullptr;
+CManagerNumber* CManager::m_pCMnumber = nullptr;
 
 
 //===========================================================================================================
@@ -55,6 +56,8 @@ HRESULT CManager::Init(HINSTANCE hinstance, HWND hWnd, BOOL bWindow)
 	m_pCamera = new CCamera;
 	m_pLight = new CLight;
 
+	m_pCMnumber = new CManagerNumber;
+
 	m_pRenderer->Init(hWnd, bWindow);
 	m_pKeyboard->Init(hinstance, hWnd);
 	m_pJoypad->Init();
@@ -63,6 +66,7 @@ HRESULT CManager::Init(HINSTANCE hinstance, HWND hWnd, BOOL bWindow)
 
 	m_pCamera->Init();
 	m_pLight->Init();
+	//m_pCMnumber->Init();
 
 	m_pFade->SetFade(CScene::MODE_TITLE);
 	//SetMode(CScene::MODE_TITLE);
@@ -84,6 +88,12 @@ void CManager::Uninit()
 
 	m_pJoypad->Uninit();
 	m_pKeyboard->Uninit();
+
+	if (m_pCMnumber != nullptr)
+	{
+		m_pCMnumber->Uninit();
+		m_pCMnumber = nullptr;
+	}
 
 	if (m_pScene != nullptr)
 	{
@@ -120,6 +130,12 @@ void CManager::Uninit()
 		delete m_pFixedValue;
 		m_pFixedValue = nullptr;
 	}
+
+	//if (m_pCMnumber != nullptr)
+	//{
+	//	delete m_pCMnumber;
+	//	m_pCMnumber = nullptr;
+	//}
 
 
 	CObject::DeathAll();

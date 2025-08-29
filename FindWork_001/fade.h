@@ -30,6 +30,7 @@ public:
 	void Update()override;	// 更新
 	void Draw()override;	// 描画
 	void SetFade(CScene::MODE nextmode);
+	void SetFade(CScene::MODE nextmode,int delay);
 	void FadeIn();
 	void FadeOut();
 	STATE GetState();
@@ -37,6 +38,8 @@ private:
 	STATE m_State;
 	CScene::MODE m_NextMode;
 	int m_fFadeframe;	// フェード遷移の時間
+	int m_DelayCnt;	// フェードに入るまでの遅延
+	bool m_IsSetFade;	// フェード状態に入ったかどうか(Delayの状態維持のため)
 	//CFade* m_pState;
 };
 

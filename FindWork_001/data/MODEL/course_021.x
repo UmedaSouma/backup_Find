@@ -1314,7 +1314,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "data\\texture\\course_asphalt_000.png";
+    "data\\texture\\check.jpg";
    }
   }
  }

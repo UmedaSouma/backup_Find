@@ -30,8 +30,8 @@ CCoursePoint::~CCoursePoint()
 //========================================================================================================================
 HRESULT CCoursePoint::Init()
 {
-	SetModel("data\\MODEL\\course_point_000.x");
 #ifdef _DEBUG
+	SetModel("data\\MODEL\\course_point_000.x");
 #endif // !_DEBUG
 	SetType(CObject::POINT);
 	CModel::Init();
@@ -62,7 +62,9 @@ void CCoursePoint::Update()
 //========================================================================================================================
 void CCoursePoint::Draw()
 {
+#ifdef _DEBUG
 	CModel::Draw();
+#endif // !_DEBUG
 }
 
 //===========================================================================================================
@@ -74,12 +76,12 @@ void CCoursePoint::PassPointUpdate()
 	player = CSearch::SearchObject(player, CObject::CAR_PLAYER);
 
 	if (player == nullptr)
-	{
+	{// ƒvƒŒƒCƒ„[‚ª‘¶Ý‚µ‚Ä‚¢‚È‚©‚Á‚½‚ç
 		return;
 	}
 
 	if (CCollision::SphereTrigger(player->GetPos(), 20.0f, GetPos(), 100.0f))
-	{
+	{// ’Ê‚Á‚½
 		m_bPassPoint = true;
 	}
 }

@@ -1,125 +1,69 @@
 //===========================================================================================================================================================
 // 
-// シーンの管理
+// 数字の管理 [manager_number.cpp]
 // Author : souma umeda
 // 
 //===========================================================================================================================================================
-#include "scene.h"
-#include "title.h"
-#include "tutorial.h"
-#include "game.h"
-#include "result.h"
-#include "object.h"
-#include "input.h"
-#include "manager.h"
-#include "editor_param.h"
-#include "editor_coursepoint.h"
-#include "editor_obstacles.h"
-#include "manager.h"
-#include "camera.h"
-
-// 静的メンバの初期化
-
-CScene::MODE CScene::m_Mode = CScene::MODE_NONE;
+#include "manager_number.h"
 
 //===========================================================================================================
 // コンストラクタ
 //===========================================================================================================
-CScene::CScene()
+CManagerNumber::CManagerNumber():
+	m_pTimer(nullptr)
 {
 }
 
 //===========================================================================================================
 // デストラクタ
 //===========================================================================================================
-CScene::~CScene()
+CManagerNumber::~CManagerNumber()
 {
 }
 
 //===========================================================================================================
-// 初期設定
+// 初期化処理
 //===========================================================================================================
-HRESULT CScene::Init()
+void CManagerNumber::Init()
 {
-	return S_OK;
+	if (m_pTimer == nullptr)
+	{
+		m_pTimer = new CTimer;
+
+		m_pTimer->Init();
+	}
 }
 
 //===========================================================================================================
 // 終了処理
 //===========================================================================================================
-void CScene::Uninit()
+void CManagerNumber::Uninit()
 {
-	CCamera* pCamera = CManager::GetCamera();
-	pCamera->SetTargetPos({ 0.0f,0.0f,0.0f });
-	pCamera->SetRot({ 0.0f,0.0f,0.0f });
-
-	CObject::ReleaseAll();
+	if (m_pTimer != nullptr)
+	{
+		m_pTimer->Uninit();
+		m_pTimer = nullptr;
+	}
 }
 
 //===========================================================================================================
 // 更新処理
 //===========================================================================================================
-void CScene::Update()
+void CManagerNumber::Update()
 {
+	if (m_pTimer != nullptr)
+	{
+		m_pTimer->Update();
+	}
 }
 
 //===========================================================================================================
 // 描画処理
 //===========================================================================================================
-void CScene::Draw()
+void CManagerNumber::Draw()
 {
-
-}
-
-//===========================================================================================================
-// シーンの設定
-//===========================================================================================================
-CScene* CScene::Create(MODE mode)
-{
-	CScene* pScene = nullptr;
-
-	switch (mode)
+	if (m_pTimer != nullptr)
 	{
-	case MODE::MODE_TITLE:
-		pScene = new CTitle;
-
-		break;
-
-	case MODE::MODE_GAME:
-		pScene = new CGame;
-
-		break;
-
-	case MODE::MODE_TUTORIAL:
-		pScene = new CTutorial;
-
-		break;
-
-	case MODE::MODE_RESULT:
-		pScene = new CResult;
-
-		break;
-
-	case MODE::MODE_EDITOR_PRAM:
-		pScene = new CEditor_Param;
-
-		break;
-
-	case MODE::MODE_COURSEPOINT:
-		pScene = new CEditorCoursePoint;
-		break;
-
-	case MODE::MODE_EDIT_OBSTACLE:
-		pScene = new CEditorObstacle;
-		break;
+		m_pTimer->Draw();
 	}
-
-	m_Mode = mode;
-
-	return pScene;
-}
-
-CScene::MODE CScene::GetMode()
-{
-	return m_Mode;
 }

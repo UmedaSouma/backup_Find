@@ -31,7 +31,7 @@ CExplosion::~CExplosion()
 //========================================================================================================================
 HRESULT CExplosion::Init()
 {
-	SetModel("data\\MODEL\\sphere_000.x");
+	SetModel("data\\MODEL\\explotion_sphere_sample_000.x");
 	SetSize({ 10.0f,10.0f,10.0f });
 
 	CModel::Init();

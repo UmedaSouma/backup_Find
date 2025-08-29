@@ -96,7 +96,7 @@ template<typename typeclass> inline typeclass* CSearch::SearchType(typeclass* Cl
 }
 
 //===========================================================================================================
-// オブジェクトを探す(複数?!)
+// オブジェクトを探す(複数)
 //===========================================================================================================
 template<typename typeclass> inline std::vector<typeclass*> CSearch::SearchMultiObject(std::vector<typeclass*>Class, CObject::TYPE type)
 {

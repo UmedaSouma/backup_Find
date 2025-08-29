@@ -30,6 +30,7 @@
 #include "cloud.h"
 #include "calculation.h"
 #include "number.h"
+#include "manager.h"
 
 #include <fstream>
 
@@ -84,8 +85,6 @@ HRESULT CGame::Init()
 
 	CObstacle::Create({ 120.0f,0.0f,300.0f }, CObstacle::OBS_DRUMCAN);
 	CObstacle::Create({ 140.0f,0.0f,300.0f }, CObstacle::OBS_DRUMCAN);
-
-	CSpeedMeter::Create();
 
 	CGoal::Create();
 
@@ -143,6 +142,12 @@ void CGame::Uninit()
 	{
 		m_timer->Uninit();
 		m_timer = nullptr;
+	}
+
+	if (m_pCountDown != nullptr)
+	{
+		m_pCountDown->Uninit();
+		m_pCountDown = nullptr;
 	}
 
 	CScene::Uninit();

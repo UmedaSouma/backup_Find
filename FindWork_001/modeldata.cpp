@@ -19,7 +19,6 @@ CModeldata::CModeldata()
 	for (int nCnt = 0; nCnt < MAX_MODEL_DATA; nCnt++)
 	{
 		m_pModelData[nCnt] = {};
-
 		
 		m_pStorage[nCnt] = nullptr;
 

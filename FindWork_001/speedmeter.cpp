@@ -27,13 +27,16 @@ CSpeedMeter::~CSpeedMeter()
 //========================================================================================================================
 HRESULT CSpeedMeter::Init()
 {
+	// テクスチャ設定
 	int Idx = 0;
 	Idx = CManager::GetTexture()->Regist("data\\TEXTURE\\Speedmeter_000.png");
 	BindTexture(CManager::GetTexture()->GetAddress(Idx));
 
+	// 位置・サイズ設定
 	SetPos({ SCREEN_WIDTH * 0.15f,SCREEN_HEIGHT * 0.77f,0.0f });
 	SetSize({ 140.0f,90.0f,0.0f });
 
+	// メーター針の丸生成
 	CDonut::Create(GetPos());
 
 	CObject2D::Init();

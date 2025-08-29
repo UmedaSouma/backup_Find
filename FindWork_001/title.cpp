@@ -45,7 +45,7 @@ void CTitle::Update()
 	if (keyboard->GetTrigger(DIK_RETURN) || joypad->GetTrigger(CInputJoypad::JOYKEY_START))
 	{
 		CFade* pFade = CManager::GetFade();
-		pFade->SetFade(CScene::MODE_GAME);
+		pFade->SetFade(CScene::MODE_TUTORIAL);
 	}
 }
 

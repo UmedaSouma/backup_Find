@@ -10,7 +10,10 @@
 #include "main.h"
 #include "car.h"
 #include "param_storage.h"
-#include "gauge.h"
+
+// 前方宣言
+class CDisplayNumber;
+class CGauge;
 
 class CCarPlayer:public CCar
 {
@@ -25,12 +28,16 @@ public:
 
 	static CCarPlayer* Create(CParamStorage::TYPE cartype);   // 生成処理
 
-	void UpdateGauge();
 	void SetRecoveryGauge(int n);
 private:
-	CGauge* m_pGauge;
+	static const int GEARNUM_POS_X = 1200;
+	static const int GEARNUM_POS_Y = 600;
+
+	void UpdateGauge();
+	void UpdateGearNum();
+
+	CGauge* m_pGauge;	// ゲージのポインタ
+	CDisplayNumber* m_pGearNum;	// ギアの数値
 };
-
-
 
 #endif // !CAR_PLAYER_H_

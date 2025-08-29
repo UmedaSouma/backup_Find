@@ -7,11 +7,15 @@
 #include "car_player.h"
 #include "manager.h"
 #include "fade.h"
+#include "gauge.h"
+#include "speedmeter.h"
 
 //========================================================================================================================
 // コンストラクタ
 //========================================================================================================================
-CCarPlayer::CCarPlayer() :m_pGauge(nullptr)
+CCarPlayer::CCarPlayer() :
+m_pGauge(nullptr)
+,m_pGearNum(0)
 {
 
 }
@@ -38,7 +42,17 @@ HRESULT CCarPlayer::Init()
 	SetSize({ 10.0f,10.0f,30.0f });
 	SetPos({ -250.0f,0.0f,0.0f });
 
+	// ガソリンゲージの生成
 	m_pGauge = CGauge::Create();
+
+	// ギアの数字
+	m_pGearNum = CDisplayNumber::Create(
+		{ GEARNUM_POS_X,GEARNUM_POS_Y,0 },	// 位置
+		0,									// 数値
+		CDisplayNumber::DIGID::DIGID_ONE,	// 桁数
+		CNumber::FONT_DOT_WBW);				// フォント
+
+	CSpeedMeter::Create();
 
 	CCar::Init();
 
@@ -50,6 +64,9 @@ HRESULT CCarPlayer::Init()
 //========================================================================================================================
 void CCarPlayer::Uninit()
 {
+	m_pGauge->Uninit();
+	m_pGearNum->Uninit();
+
 	CCar::Uninit();
 }
 
@@ -72,17 +89,26 @@ void CCarPlayer::Update()
 	move.y -= 3.0f;	// 重力加算
 	SetMove(move);
 
+	// ゲージの更新
 	UpdateGauge();
 
-	CCar::Update();
+	// ギアの数の更新
+	UpdateGearNum();
 
-	// 一旦ここで殺しておく
-	if (GetPos().y < -250.0f||m_pGauge->GetCurrValue()<=0)
+	CCar::Update();
+	
+	if (GetPos().y < -250.0f)
 	{
 		// リスポーン処理
 		ActionRespawn();
-		//CFade* pFade = CManager::GetFade();
-		//pFade->SetFade(CScene::MODE_GAME);
+	}
+
+	// ここで後で殺しておく
+	if(m_pGauge->GetCurrValue() <= 0)
+	{// ガソリンが切れたら
+		ActionDown();
+		CFade* pFade = CManager::GetFade();
+		pFade->SetFade(CScene::MODE::MODE_RESULT, 60);
 	}
 }
 
@@ -121,16 +147,22 @@ CCarPlayer* CCarPlayer::Create(CParamStorage::TYPE cartype)
 //===========================================================================================================
 void CCarPlayer::UpdateGauge()
 {
+	// ゲージが存在していたら
 	if (m_pGauge == nullptr)
 	{	return;	}
+
+	// ゲージの現在の値
 	float Curr = m_pGauge->GetCurrValue();
 
+	// スピード取得
 	float Speed = GetAccumulationSpeed();
+
+	// 走っていなかったら減らさない
 	if (Speed <= 0)
 	{	return; }
-
 	Speed *= 0.1f;
 
+	// ゲージをスピード分減らす
 	m_pGauge->SetCurrValue(Curr - Speed);
 }
 
@@ -148,4 +180,14 @@ void CCarPlayer::SetRecoveryGauge(int n)
 	}
 
 	m_pGauge->SetCurrValue(Curr + n);
+}
+
+//===========================================================================================================
+// ギア数の更新
+//===========================================================================================================
+void CCarPlayer::UpdateGearNum()
+{
+	if (!m_pGearNum)
+		return;
+	m_pGearNum->Update(GetGear());
 }

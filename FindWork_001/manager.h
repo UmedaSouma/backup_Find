@@ -17,6 +17,7 @@
 #include "fade.h"
 #include "param_storage.h"
 #include "fixed_value.h"
+#include "manager_number.h"
 #include"d3dx9.h"
 
 class CManager
@@ -43,6 +44,8 @@ private:
 	static CCamera* m_pCamera;
 	static CParamStorage* m_pParamStrage;
 	static CFixedValue* m_pFixedValue;	// 固定値のクラスポインタ
+
+	static CManagerNumber* m_pCMnumber;	// 数字のマネージャー
 public:
 	static CRenderer* GetRenderer() { return m_pRenderer; }			// レンダラーの取得
 	static CInputKeyBoard* GetKeyboard() { return m_pKeyboard; }	// キーボードの取得
@@ -55,6 +58,8 @@ public:
 
 	static CLight* GetLight() { return m_pLight; }					// ライトの取得
 	static CCamera* GetCamera() { return m_pCamera; }				// カメラの取得
+
+	static CManagerNumber* GetManagerNumber() { return m_pCMnumber; }
 
 };
 

@@ -56,6 +56,9 @@ void CMeterNeedle::Update()
 	CCarPlayer* pCarP = nullptr;
 	pCarP = CSearch::SearchObject(pCarP, CObject::CAR_PLAYER);
 
+	if (!pCarP)
+		return;
+
 	int Gear = pCarP->GetGear();
 
 	// •K—v‚È•Ï”‚ğ—pˆÓ

@@ -64,7 +64,8 @@ void CTimer::Uninit()
 	{
 		if (m_pDisNum[i] != nullptr)
 		{
-			delete m_pDisNum[i];
+			m_pDisNum[i]->Uninit();
+			//delete m_pDisNum[i];
 			m_pDisNum[i] = nullptr;
 		}	
 	}
@@ -88,6 +89,10 @@ void CTimer::Update()
 
 	// ŽžŠÔŒvŽZ
 	TimeCalculation();
+}
+
+void CTimer::Draw()
+{
 }
 
 //===========================================================================================================

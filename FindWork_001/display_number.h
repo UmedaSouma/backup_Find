@@ -23,9 +23,16 @@ public:
 
 	CDisplayNumber();
 	~CDisplayNumber();
+	void Uninit();
 	void Update(int num);
+	void Draw();
 	void SetDisplayNumber(int num);	// 表示する数字の設定
 
+	/// @brief 表示ナンバーの生成
+	/// @param pos	生成位置
+	/// @param num	表示する数字
+	/// @param dig	最大桁数
+	/// @param font	フォント
 	static CDisplayNumber* Create(D3DXVECTOR3 pos , int num ,DIGID dig , CNumber::FONT_TYPE font);	// 生成
 private:
 	CNumber *m_pDisplayNum[DIGID_MAX];	// 数字を格納する変数

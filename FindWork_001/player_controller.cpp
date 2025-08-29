@@ -8,6 +8,7 @@
 #include "manager.h"
 #include "countdown.h"
 #include "game.h"
+#include "manager_number.h"
 
 //===========================================================================================================
 // コンストラクタ
@@ -42,12 +43,24 @@ void CPlayerController::Uninit()
 //===========================================================================================================
 void CPlayerController::Update(CCarPlayer* pCar)
 {
+	//CTimer* pTimer = CManager::GetManagerNumber()->GetTimer();
+	CTimer* pTimer = nullptr;
 	CCountdown* pCD = CGame::GetCountDown();
 	if (pCD != nullptr)
 	{
 		if (pCD->GetUse())
 		{
 			return;
+		}
+		else
+		{
+			if (pTimer != nullptr)
+			{
+				if (!pTimer->GetPlay())
+				{
+					pTimer->Play();
+				}
+			}
 		}
 	}
 

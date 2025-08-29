@@ -22,6 +22,8 @@ CFade::CFade(int nPriority) :CObject2D(nPriority)
 	m_fFadeframe = 30;
 	m_State = FADE_NONE;				// 繊維状態の初期化
 	m_NextMode = CScene::MODE_NONE;		// モードの初期化
+	m_DelayCnt = 0;
+	m_IsSetFade = false;
 }
 
 //========================================================================================================================
@@ -83,6 +85,16 @@ void CFade::Update()
 			FadeOut();
 			break;
 
+		case FADE_STOP:
+			m_DelayCnt--;	// 遅延時間カウントダウン
+
+			if (m_DelayCnt <= 0)
+			{// 時間が0になったら
+				m_State = FADE_OUT;	// フェードアウト開始
+			}
+
+			break;
+
 		default:
 			break;
 		}
@@ -121,6 +133,7 @@ void CFade::FadeOut()
 	{
 		m_State = FADE_IN;
 		CManager::SetMode(m_NextMode);
+		m_IsSetFade = false;
 	}
 
 	SetColor(col);
@@ -131,12 +144,10 @@ void CFade::FadeOut()
 //========================================================================================================================
 void CFade::Draw()
 {
-
 	if (m_State != FADE_NONE)
 	{
 		CObject2D::Draw();
 	}
-
 }
 
 //===========================================================================================================
@@ -146,6 +157,19 @@ void CFade::SetFade(CScene::MODE nextmode)
 {
 	m_NextMode = nextmode;
 	m_State = FADE_OUT;
+}
+
+//===========================================================================================================
+// フェードをセットする(遅延も設定)
+//===========================================================================================================
+void CFade::SetFade(CScene::MODE nextmode, int delay)
+{
+	if (m_IsSetFade)
+		return;
+	m_NextMode = nextmode;
+	m_State = FADE_STOP;
+	m_DelayCnt = delay;
+	m_IsSetFade = true;
 }
 
 //===========================================================================================================
