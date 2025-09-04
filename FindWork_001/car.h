@@ -78,6 +78,7 @@ public:
 	void TarboCamera();	// ターボ使用時のカメラの挙動
 	void HitObstacle();	// 障害物と当たるまで
 	void DrawDistance();	// 描画の範囲設定
+	void DeathProcess();	// 死亡処理
 
 	static CCar* Create();   // 生成処理
 

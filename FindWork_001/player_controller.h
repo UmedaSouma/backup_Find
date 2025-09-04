@@ -10,15 +10,15 @@
 #include "main.h"
 #include "car_player.h"
 
+//===========================================================================================================
+// プレイヤーコントローラークラス
+//===========================================================================================================
 class CPlayerController
 {
 public:
 	CPlayerController();
 	~CPlayerController();
-	void Init();
-	void Uninit();
 	void Update(CCarPlayer*pCar);
-	void Move();
 private:
 
 };

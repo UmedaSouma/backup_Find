@@ -31,9 +31,10 @@ CCoursePoint::~CCoursePoint()
 HRESULT CCoursePoint::Init()
 {
 #ifdef _DEBUG
-	SetModel("data\\MODEL\\course_point_000.x");
+	SetModel("data\\MODEL\\block_shina_puripara_000.x");
 #endif // !_DEBUG
 	SetType(CObject::POINT);
+	SetScale(GetScale() * 2);
 	CModel::Init();
 
 	return S_OK;

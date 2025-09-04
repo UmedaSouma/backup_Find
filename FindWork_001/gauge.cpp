@@ -82,7 +82,7 @@ CGauge* CGauge::Create()
 	pGauge->SetPos({ SCREEN_WIDTH * 0.045f, SCREEN_HEIGHT * 0.93f,0.0f, });
 	pGauge->SetSize({ 600.0f,25.0f,0.0f });
 
-	pGauge->m_Max = 500;
+	pGauge->m_Max = 5000;
 	pGauge->m_Current = pGauge->m_Max;
 
 	pGauge->Init();
