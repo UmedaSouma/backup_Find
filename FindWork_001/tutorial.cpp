@@ -14,14 +14,14 @@
 //CTimer* CTutorial::m_timer = nullptr;
 CParamStorage* CTutorial::m_pParamStorage = nullptr;
 CPlayerManager* CTutorial::m_pPlayerManager = nullptr;
-//CCountdown* CTutorial::m_pCountDown = nullptr;
-//int CTutorial::m_nDelayEnd = 0; // 倒してからリザルトになるまで
-//bool CTutorial::m_Delay = false;
+CTutorial::TUTORIAL_EXPRANATION CTutorial::m_ExpranationNum = CTutorial::EXPRANATION_1;
 //===========================================================================================================
 // コンストラクタ
 //===========================================================================================================
 CTutorial::CTutorial()
 {
+	m_tutorialtime = 0;
+	m_firsttimestop = false;
 }
 
 //===========================================================================================================
@@ -29,6 +29,7 @@ CTutorial::CTutorial()
 //===========================================================================================================
 CTutorial::~CTutorial()
 {
+	CManager::SetScenestop(false);
 }
 
 //===========================================================================================================
@@ -36,6 +37,10 @@ CTutorial::~CTutorial()
 //===========================================================================================================
 HRESULT CTutorial::Init()
 {
+	// 変数の初期化
+	m_tutorialtime = 0;
+	m_firsttimestop = false;
+
 	CCourse::Create(CCourse::COURSE_01);
 
 	// パラメーター管理クラス作成
@@ -88,6 +93,15 @@ void CTutorial::Update()
 
 	// プレイヤー管理の更新
 	m_pPlayerManager->Update();
+
+	// チュートリアル開始時点
+	if (m_tutorialtime > 0 && !CManager::GetScenestop() && !m_firsttimestop)
+	{// チュートリアル開始１フレーム以上 && シーン停止していないとき && 一回もシーン停止を通っていないとき
+		CManager::SetScenestop(true);
+		m_firsttimestop = true;
+	}
+	
+	m_tutorialtime++;
 }
 
 //===========================================================================================================
@@ -95,5 +109,18 @@ void CTutorial::Update()
 //===========================================================================================================
 void CTutorial::Draw()
 {
+	CInputKeyBoard* keyboard = CManager::GetKeyboard();
+
+	if (keyboard->GetTrigger(DIK_0))
+		CManager::SetScenestop(!CManager::GetScenestop());
+}
+
+//===========================================================================================================
+// 説明番号を増やす
+//===========================================================================================================
+void CTutorial::AddExprationNum()
+{
+	if (m_ExpranationNum < EXPRANATION_MAX)
+		m_ExpranationNum + 1;
 }
 

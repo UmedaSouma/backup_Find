@@ -14,7 +14,7 @@ CCamera* CManager::m_pCamera = nullptr;
 CParamStorage* CManager::m_pParamStrage = nullptr;
 CFixedValue* CManager::m_pFixedValue = nullptr;
 CManagerNumber* CManager::m_pCMnumber = nullptr;
-
+bool CManager::m_SceneStop = false;
 
 //===========================================================================================================
 // コンストラクタ
@@ -37,7 +37,6 @@ CManager::~CManager()
 //===========================================================================================================
 HRESULT CManager::Init(HINSTANCE hinstance, HWND hWnd, BOOL bWindow)
 {
-
 	srand((unsigned int)time(NULL)); // 現在時刻の情報で初期化
 
 	m_pKeyboard = new CInputKeyBoard;
@@ -51,7 +50,6 @@ HRESULT CManager::Init(HINSTANCE hinstance, HWND hWnd, BOOL bWindow)
 	{
 		m_pFixedValue = new CFixedValue;
 	}
-
 
 	m_pCamera = new CCamera;
 	m_pLight = new CLight;
@@ -146,26 +144,20 @@ void CManager::Uninit()
 //===========================================================================================================
 void CManager::Update()
 {
+	m_pKeyboard->Update();
+	m_pJoypad->Update();
 
 	if (m_pRenderer != nullptr)
 	{
 		m_pRenderer->Update();
 	}
 
-	//if (m_pFade->GetState() != CFade::FADE_OUT)
-	{
-		if (m_pScene != nullptr)
-		{
-			m_pScene->Update();
-		}
-	}
-
 	m_pCamera->Update();
-	m_pKeyboard->Update();
-	m_pJoypad->Update();
 
-	//m_pFade->Update();
-
+	if (m_pScene != nullptr)
+	{
+		m_pScene->Update();
+	}
 }
 
 //===========================================================================================================

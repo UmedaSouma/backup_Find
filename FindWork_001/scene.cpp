@@ -41,6 +41,8 @@ CScene::~CScene()
 //===========================================================================================================
 HRESULT CScene::Init()
 {
+	CManager::SetScenestop(false);
+
 	return S_OK;
 }
 

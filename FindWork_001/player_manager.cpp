@@ -62,6 +62,13 @@ void CPlayerManager::Uninit()
 //===========================================================================================================
 void CPlayerManager::Update()
 {
+	// シーンの停止したかの判定
+	bool bstop = CManager::GetScenestop();
+	
+	// 停止していたら更新しない
+	if (bstop)
+		return;
+
 	if (m_pCar != nullptr)
 	{
 		CCamera* pCamera = CManager::GetCamera();	// camera を持ってくる

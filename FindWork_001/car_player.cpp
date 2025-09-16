@@ -78,6 +78,7 @@ void CCarPlayer::Update()
 	CCamera* pCamera = CManager::GetCamera();
 	D3DXVECTOR3 move = GetMove();
 	
+	
 	if (pCamera != nullptr)
 	{
 		D3DXVECTOR3 rot = GetRot();
@@ -85,6 +86,10 @@ void CCarPlayer::Update()
 
 		pCamera->SetRot({ camerarot.x,rot.y,camerarot.z });
 	}
+
+	//// シーンストップが true じゃなかったら
+	if (CManager::GetScenestop())
+		return;
 
 	move.y -= 3.0f;	// 重力加算
 	SetMove(move);

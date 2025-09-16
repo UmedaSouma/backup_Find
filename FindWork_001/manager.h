@@ -18,6 +18,7 @@
 #include "param_storage.h"
 #include "fixed_value.h"
 #include "manager_number.h"
+#include "tutorial.h"
 #include"d3dx9.h"
 
 class CManager
@@ -31,6 +32,26 @@ public:
 	void Draw();
 
 	static void SetMode(CScene::MODE mode);
+	static bool m_SceneStop;	// シーンをストップする(チュートリアル用)
+
+	static CRenderer* GetRenderer() { return m_pRenderer; }			// レンダラーの取得
+	static CInputKeyBoard* GetKeyboard() { return m_pKeyboard; }	// キーボードの取得
+	static CInputJoypad* GetJoypad() { return m_pJoypad; }			// ジョイパッドの取得
+	static CTexture* GetTexture() { return m_pTexture; }			// テクスチャの取得
+	static CModeldata* GetModeldata() { return m_pModeldata; }		// モデルデータの取得
+	static CFade* GetFade() { return m_pFade; }
+	static CParamStorage* GetParamStrage() { return m_pParamStrage; }
+	static CFixedValue* GetFixValue() { return m_pFixedValue; }	// 固定値クラスの取得
+
+	static CLight* GetLight() { return m_pLight; }					// ライトの取得
+	static CCamera* GetCamera() { return m_pCamera; }				// カメラの取得
+
+	static CManagerNumber* GetManagerNumber() { return m_pCMnumber; }
+
+	// -- シーンストップ --
+	static void SetScenestop(bool scenestop) { m_SceneStop = scenestop;}
+	static bool GetScenestop() { return m_SceneStop; }
+
 private:
 	static CScene* m_pScene;
 	static CFade* m_pFade;
@@ -46,21 +67,6 @@ private:
 	static CFixedValue* m_pFixedValue;	// 固定値のクラスポインタ
 
 	static CManagerNumber* m_pCMnumber;	// 数字のマネージャー
-public:
-	static CRenderer* GetRenderer() { return m_pRenderer; }			// レンダラーの取得
-	static CInputKeyBoard* GetKeyboard() { return m_pKeyboard; }	// キーボードの取得
-	static CInputJoypad* GetJoypad() { return m_pJoypad; }			// ジョイパッドの取得
-	static CTexture* GetTexture() { return m_pTexture; }			// テクスチャの取得
-	static CModeldata* GetModeldata() { return m_pModeldata; }		// モデルデータの取得
-	static CFade* GetFade() { return m_pFade; }
-	static CParamStorage* GetParamStrage() { return m_pParamStrage; }
-	static CFixedValue* GetFixValue() { return m_pFixedValue; }	// 固定値クラスの取得
-
-	static CLight* GetLight() { return m_pLight; }					// ライトの取得
-	static CCamera* GetCamera() { return m_pCamera; }				// カメラの取得
-
-	static CManagerNumber* GetManagerNumber() { return m_pCMnumber; }
-
 };
 
 #endif // !_MANAGER_H_
