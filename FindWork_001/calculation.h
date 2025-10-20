@@ -22,8 +22,8 @@ public:
 		ROT_Z,
 	}ROT_AXIS;
 
-	CCalculation();
-	~CCalculation();
+	CCalculation();		// コンストラクタ
+	~CCalculation();	// デストラクタ
 	static float FixAngle(float Angle, float TargetAngle);
 	static float DemandAngle(D3DXVECTOR3 posA , D3DXVECTOR3 posB);
 	static float Ratio(float Max, float Curr);

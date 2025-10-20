@@ -106,6 +106,9 @@ void CObject3D::Uninit()
 //===========================================================================================================
 void CObject3D::Update()
 {
+	if (CManager::GetScenestop())
+		return;
+
 	UpdateMatrix();
 
 	m_pos += m_move;

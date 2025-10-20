@@ -242,6 +242,7 @@
     <ClCompile Include="title_poly.cpp" />
     <ClCompile Include="tree.cpp" />
     <ClCompile Include="tutorial.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actor.h" />
@@ -316,6 +317,7 @@
     <ClInclude Include="title_poly.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="tutorial.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

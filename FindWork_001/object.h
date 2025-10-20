@@ -54,8 +54,8 @@ public:
 
 	TYPE GetType();				// タイプを取得
 	void SetType(TYPE nType);	// タイプを設定
-protected:
 	void Release();	// 自分自身の解放
+protected:
 private:
 	int m_nID;	// 自分自身のID
 	int m_nPriority;	// 描画優先度
